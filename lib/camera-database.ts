@@ -19,9 +19,15 @@ export const CAMERA_DATABASE: Camera[] = [
     manufacturer: "ARRI",
     model: "Alexa 35",
     sensorModes: [
-      { name: "Open Gate (4.6K)", width: 27.99, height: 19.22 },
-      { name: "16:9 (4K)", width: 27.99, height: 15.74 },
-      { name: "4:3 Ana 2x", width: 23.76, height: 17.82, anamorphicSqueeze: 2.0 },
+      { name: "4.6K 3:2 Open Gate", width: 28.0, height: 19.2 },
+      { name: "4.6K 16:9", width: 28.0, height: 15.7 },
+      { name: "4K 16:9", width: 24.9, height: 14.0 },
+      { name: "4K 2:1", width: 24.9, height: 12.4 },
+      { name: "3.8K 16:9", width: 23.3, height: 13.1 },
+      { name: "3.3K 6:5", width: 20.22, height: 16.95 },
+      { name: "3K 1:1", width: 18.7, height: 18.7 },
+      { name: "2.7K 8:9", width: 16.7, height: 18.7 },
+      { name: "2K 16:9 S16", width: 12.4, height: 7.0 },
     ],
   },
   {

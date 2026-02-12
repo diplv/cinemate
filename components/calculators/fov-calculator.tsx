@@ -37,7 +37,7 @@ export function FoVCalculator() {
   const camerasByMfr = useMemo(() => getCamerasByManufacturer(), []);
 
   const [cameraId, setCameraId] = useState("arri-alexa-35");
-  const [sensorModeName, setSensorModeName] = useState("Open Gate (4.6K)");
+  const [sensorModeName, setSensorModeName] = useState("4.6K 3:2 Open Gate");
   const [focalLength, setFocalLength] = useState(50);
   const [distanceInput, setDistanceInput] = useState<number | "">("");
 
