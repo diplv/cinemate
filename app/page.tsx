@@ -11,11 +11,11 @@ export default function Home() {
       <TabsList className="grid w-full grid-cols-2">
         <TabsTrigger value="diopter" className="gap-1.5">
           <Focus className="h-4 w-4" />
-          Diopter
+          Diopter Focus Range
         </TabsTrigger>
         <TabsTrigger value="fov" className="gap-1.5">
           <Video className="h-4 w-4" />
-          FoV
+          FoV Calculator
         </TabsTrigger>
       </TabsList>
       <TabsContent value="diopter" className="mt-4">
