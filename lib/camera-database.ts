@@ -35,9 +35,15 @@ export const CAMERA_DATABASE: Camera[] = [
     manufacturer: "ARRI",
     model: "ALEXA Mini LF",
     sensorModes: [
-      { name: "Open Gate (4.5K)", width: 36.70, height: 25.54 },
-      { name: "LF 16:9 (4.5K)", width: 36.70, height: 20.64 },
-      { name: "LF 2.39:1", width: 36.70, height: 15.31 },
+      { name: "4.5K LF 3:2 Open Gate", width: 36.70, height: 25.54 },
+      { name: "4.5K LF 2.39:1", width: 36.70, height: 15.31 },
+      { name: "4.3K LF 16:9", width: 35.64, height: 20.05 },
+      { name: "3.8K LF 16:9", width: 31.68, height: 17.82 },
+      { name: "2.8K LF 1:1", width: 23.76, height: 23.76 },
+      { name: "3.4K S35 3:2", width: 28.25, height: 18.16 },
+      { name: "3.2K S35 16:9", width: 26.40, height: 14.85 },
+      { name: "2.8K S35 4:3", width: 23.76, height: 17.81 },
+      { name: "2.8K S35 16:9", width: 23.76, height: 13.36 },
     ],
   },
   {
