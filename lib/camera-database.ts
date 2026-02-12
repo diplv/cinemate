@@ -47,6 +47,23 @@ export const CAMERA_DATABASE: Camera[] = [
     ],
   },
   {
+    id: "arri-alexa-mini",
+    manufacturer: "ARRI",
+    model: "ALEXA Mini",
+    sensorModes: [
+      { name: "Open Gate 3.4K", width: 28.25, height: 18.17 },
+      { name: "3.2K 16:9", width: 26.40, height: 14.85 },
+      { name: "4K UHD 16:9", width: 26.40, height: 14.85 },
+      { name: "ARRIRAW 16:9 2.8K", width: 23.76, height: 13.37 },
+      { name: "HD 16:9", width: 23.76, height: 13.37 },
+      { name: "2K 16:9", width: 23.66, height: 13.30 },
+      { name: "4:3 2.8K", width: 23.76, height: 17.82 },
+      { name: "2.39:1 2K Ana", width: 21.12, height: 17.70 },
+      { name: "HD Ana", width: 15.84, height: 17.82 },
+      { name: "S16 HD", width: 13.20, height: 7.43 },
+    ],
+  },
+  {
     id: "arri-alexa-65",
     manufacturer: "ARRI",
     model: "ALEXA 65",
