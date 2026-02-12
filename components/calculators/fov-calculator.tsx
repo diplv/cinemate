@@ -82,8 +82,8 @@ export function FoVCalculator() {
       sensorMode.width ** 2 + sensorMode.height ** 2,
     );
     if (diag > 50) return "Large Format";
-    if (diag > 40) return "Full Frame+";
-    if (diag > 30) return "Full Frame";
+    if (diag > 43) return "Full Frame+";
+    if (diag > 38) return "Full Frame";
     if (diag > 20) return "Super 35";
     if (diag > 14) return "Super 16";
     return "Sub-16";
