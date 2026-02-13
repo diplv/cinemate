@@ -63,6 +63,11 @@ export const CODEC_DATABASE: CameraCodecProfile[] = [
       // ProRes modes
       { name: "ProRes 4444 4K", frameSizeMB: 5.5, supportedFramerates: [24, 25, 30, 48, 50, 60, 120, 150] },
       { name: "ProRes 422 HQ 4K", frameSizeMB: 3.5, supportedFramerates: [24, 25, 30, 48, 50, 60, 120, 150] },
+      { name: "ProRes 4444 4.6K OG", frameSizeMB: 8.5, supportedFramerates: [24, 25, 30, 48, 50, 60, 120] },
+      { name: "ProRes 4444 4.6K 16:9", frameSizeMB: 7.0, supportedFramerates: [24, 25, 30, 48, 50, 60, 120, 150] },
+      { name: "ProRes 4444 UHD", frameSizeMB: 5.0, supportedFramerates: [24, 25, 30, 48, 50, 60, 105, 150] },
+      { name: "ProRes 422 HQ 2K", frameSizeMB: 0.9, supportedFramerates: [24, 25, 30, 48, 50, 60, 120, 150, 330] },
+      { name: "ProRes 422 HQ HD", frameSizeMB: 0.8, supportedFramerates: [24, 25, 30, 48, 50, 60, 120, 150, 330] },
     ],
   },
   {
