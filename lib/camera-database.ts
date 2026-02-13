@@ -147,16 +147,18 @@ export const CAMERA_DATABASE: Camera[] = [
     manufacturer: "Sony",
     model: "VENICE 2 8K",
     sensorModes: [
+      // Full Frame modes (from Sony VENICE 2 8K Format Poster)
       { name: "8.6K 3:2", width: 35.9, height: 24.0 },
       { name: "8.6K 17:9", width: 35.9, height: 19.0 },
-      { name: "8.2K 2.39:1", width: 34.1, height: 14.3 },
       { name: "8.2K 17:9", width: 34.1, height: 18.0 },
-      { name: "8.1K 16:9", width: 33.7, height: 19.0 },
-      { name: "7.6K 16:9", width: 31.9, height: 18.0 },
+      { name: "8.2K 2.39:1", width: 34.1, height: 14.3 },
+      { name: "8.1K 16:9", width: 33.8, height: 19.0 },
+      { name: "7.6K 16:9", width: 32.0, height: 18.0 },
+      // Super 35 modes
       { name: "5.8K 6:5", width: 24.1, height: 20.2 },
       { name: "5.8K 4:3", width: 24.1, height: 17.8 },
       { name: "5.8K 17:9", width: 24.1, height: 12.7 },
-      { name: "5.5K 2.39:1", width: 22.8, height: 9.6 },
+      { name: "5.5K 2.39:1", width: 22.8, height: 9.55 },
       { name: "5.4K 16:9", width: 22.6, height: 12.7 },
     ],
   },

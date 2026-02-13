@@ -172,12 +172,27 @@ export const CODEC_DATABASE: CameraCodecProfile[] = [
     mediaType: "AXS Memory Card",
     cardSizes: [1000, 2000],
     codecs: [
-      { name: "X-OCN XT 8.6K", frameSizeMB: 27.84, supportedFramerates: [24, 25, 30] },
-      { name: "X-OCN ST 8.6K", frameSizeMB: 19.05, supportedFramerates: [24, 25, 30, 48, 50, 60] },
-      { name: "X-OCN LT 8.6K", frameSizeMB: 11.22, supportedFramerates: [24, 25, 30, 48, 50, 60, 90] },
-      { name: "X-OCN XT 6K", frameSizeMB: 12.5, supportedFramerates: [24, 25, 30, 48, 50, 60, 90, 120] },
-      { name: "X-OCN ST 6K", frameSizeMB: 8.3, supportedFramerates: [24, 25, 30, 48, 50, 60, 90, 120] },
-      { name: "XAVC 4K Class 480", frameSizeMB: 2.5, supportedFramerates: [24, 25, 30, 48, 50, 60] },
+      // Full Frame modes (X-OCN XT frame sizes, fps from Sony poster)
+      { name: "X-OCN XT 8.6K 3:2", frameSizeMB: 27.84, supportedFramerates: [24, 25, 30] },
+      { name: "X-OCN XT 8.6K 17:9", frameSizeMB: 22.0, supportedFramerates: [24, 25, 30, 48] },
+      { name: "X-OCN XT 8.2K 17:9", frameSizeMB: 19.8, supportedFramerates: [24, 25, 30, 48, 50, 60] },
+      { name: "X-OCN XT 8.2K 2.39:1", frameSizeMB: 15.7, supportedFramerates: [24, 25, 30, 48, 50, 60, 72] },
+      { name: "X-OCN XT 8.1K 16:9", frameSizeMB: 20.6, supportedFramerates: [24, 25, 30, 48] },
+      { name: "X-OCN XT 7.6K 16:9", frameSizeMB: 18.5, supportedFramerates: [24, 25, 30, 48, 50, 60] },
+      // X-OCN ST modes
+      { name: "X-OCN ST 8.6K 3:2", frameSizeMB: 19.05, supportedFramerates: [24, 25, 30] },
+      { name: "X-OCN ST 8.6K 17:9", frameSizeMB: 15.1, supportedFramerates: [24, 25, 30, 48] },
+      { name: "X-OCN ST 8.2K", frameSizeMB: 13.6, supportedFramerates: [24, 25, 30, 48, 50, 60] },
+      // X-OCN LT modes
+      { name: "X-OCN LT 8.6K 3:2", frameSizeMB: 11.22, supportedFramerates: [24, 25, 30] },
+      { name: "X-OCN LT 8.6K 17:9", frameSizeMB: 8.9, supportedFramerates: [24, 25, 30, 48] },
+      { name: "X-OCN LT 8.2K", frameSizeMB: 8.0, supportedFramerates: [24, 25, 30, 48, 50, 60] },
+      // Super 35 modes
+      { name: "X-OCN XT 5.8K 17:9", frameSizeMB: 9.9, supportedFramerates: [24, 25, 30, 48, 50, 60, 72, 75, 90] },
+      { name: "X-OCN XT 5.8K 6:5", frameSizeMB: 15.7, supportedFramerates: [24, 25, 30, 48] },
+      { name: "X-OCN XT 5.8K 4:3", frameSizeMB: 13.8, supportedFramerates: [24, 25, 30, 48, 50, 60] },
+      { name: "X-OCN XT 5.5K 2.39:1", frameSizeMB: 7.0, supportedFramerates: [24, 25, 30, 48, 50, 60, 90, 100, 120] },
+      { name: "X-OCN XT 5.4K 16:9", frameSizeMB: 9.3, supportedFramerates: [24, 25, 30, 48, 50, 60, 72, 75, 90] },
     ],
   },
 ];
