@@ -20,6 +20,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   getCamerasByManufacturer,
   findCamera,
@@ -31,6 +32,16 @@ import { formatForUnit, feetToMeters } from "@/lib/units";
 import { useUnit } from "@/components/unit-provider";
 
 const FOCAL_LENGTH_PRESETS = [14, 18, 24, 35, 50, 75, 85, 100, 135, 200];
+const FRAMELINE_PRESETS = [
+  { label: "1.33:1 (4:3)", value: 1.33 },
+  { label: "1.78:1 (16:9)", value: 1.78 },
+  { label: "2.39:1", value: 2.39 },
+];
+const ANAMORPHIC_PRESETS = [
+  { label: "1.5x", value: 1.5 },
+  { label: "1.8x", value: 1.8 },
+  { label: "2.0x", value: 2.0 },
+];
 
 export function FoVCalculator() {
   const { unit } = useUnit();
@@ -40,6 +51,16 @@ export function FoVCalculator() {
   const [sensorModeName, setSensorModeName] = useState("4.6K 3:2 Open Gate");
   const [focalLength, setFocalLength] = useState(50);
   const [distanceInput, setDistanceInput] = useState<number | "">("");
+
+  // Frameline state
+  const [framelineEnabled, setFramelineEnabled] = useState(false);
+  const [framelinePreset, setFramelinePreset] = useState<string>("1.78");
+  const [customFrameline, setCustomFrameline] = useState<number>(1.85);
+
+  // Anamorphic state
+  const [anamorphicEnabled, setAnamorphicEnabled] = useState(false);
+  const [anamorphicPreset, setAnamorphicPreset] = useState<string>("2.0");
+  const [customAnamorphic, setCustomAnamorphic] = useState<number>(1.33);
 
   // Always store internal distance in meters
   const distanceMeters = useMemo(() => {
@@ -57,16 +78,49 @@ export function FoVCalculator() {
     );
   }, [camera, sensorModeName]);
 
-  const result = useMemo(() => {
+  // Calculate effective sensor dimensions with frameline applied
+  const effectiveSensor = useMemo(() => {
     if (!sensorMode) return null;
+    
+    if (!framelineEnabled) {
+      return { width: sensorMode.width, height: sensorMode.height };
+    }
+    
+    const targetAR = framelinePreset === "custom" 
+      ? customFrameline 
+      : parseFloat(framelinePreset);
+    
+    const sensorAR = sensorMode.width / sensorMode.height;
+    
+    if (targetAR > sensorAR) {
+      // Frameline is wider - crop height to match AR
+      return { width: sensorMode.width, height: sensorMode.width / targetAR };
+    } else {
+      // Frameline is taller - crop width to match AR
+      return { width: sensorMode.height * targetAR, height: sensorMode.height };
+    }
+  }, [sensorMode, framelineEnabled, framelinePreset, customFrameline]);
+
+  // Calculate effective anamorphic squeeze
+  const effectiveAnamorphic = useMemo(() => {
+    if (anamorphicEnabled) {
+      return anamorphicPreset === "custom"
+        ? customAnamorphic
+        : parseFloat(anamorphicPreset);
+    }
+    return sensorMode?.anamorphicSqueeze ?? 1.0;
+  }, [anamorphicEnabled, anamorphicPreset, customAnamorphic, sensorMode]);
+
+  const result = useMemo(() => {
+    if (!sensorMode || !effectiveSensor) return null;
     return calculateFullFoV(
-      sensorMode.width,
-      sensorMode.height,
+      effectiveSensor.width,
+      effectiveSensor.height,
       focalLength,
-      sensorMode.anamorphicSqueeze ?? 1.0,
+      effectiveAnamorphic,
       distanceMeters,
     );
-  }, [sensorMode, focalLength, distanceMeters]);
+  }, [sensorMode, effectiveSensor, focalLength, effectiveAnamorphic, distanceMeters]);
 
   const handleCameraChange = (id: string) => {
     setCameraId(id);
@@ -210,6 +264,137 @@ export function FoVCalculator() {
               Enter distance ({distLabel}) to see field dimensions at that point.
             </p>
           </div>
+
+          {/* Frameline */}
+          <div className="space-y-3">
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="frameline-toggle"
+                checked={framelineEnabled}
+                onCheckedChange={(checked) => setFramelineEnabled(checked === true)}
+              />
+              <Label htmlFor="frameline-toggle" className="cursor-pointer">
+                Add Frameline
+              </Label>
+            </div>
+            
+            {framelineEnabled && (
+              <div className="space-y-2 pl-6">
+                <div className="flex flex-wrap gap-2">
+                  {FRAMELINE_PRESETS.map((preset) => (
+                    <button
+                      key={preset.value}
+                      type="button"
+                      onClick={() => setFramelinePreset(preset.value.toString())}
+                      className={`rounded-md border px-3 py-1 text-xs transition-colors ${
+                        framelinePreset === preset.value.toString()
+                          ? "border-primary bg-primary text-primary-foreground"
+                          : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                      }`}
+                    >
+                      {preset.label}
+                    </button>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={() => setFramelinePreset("custom")}
+                    className={`rounded-md border px-3 py-1 text-xs transition-colors ${
+                      framelinePreset === "custom"
+                        ? "border-primary bg-primary text-primary-foreground"
+                        : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                    }`}
+                  >
+                    Custom
+                  </button>
+                </div>
+                
+                {framelinePreset === "custom" && (
+                  <div className="flex items-center gap-2">
+                    <Input
+                      type="number"
+                      value={customFrameline}
+                      onChange={(e) =>
+                        setCustomFrameline(Math.max(0.5, parseFloat(e.target.value) || 1))
+                      }
+                      className="w-24"
+                      min={0.5}
+                      step={0.01}
+                    />
+                    <span className="text-sm text-muted-foreground">:1</span>
+                  </div>
+                )}
+                
+                {effectiveSensor && sensorMode && (
+                  <p className="text-xs text-muted-foreground">
+                    Effective area: {effectiveSensor.width.toFixed(2)} x{" "}
+                    {effectiveSensor.height.toFixed(2)} mm
+                  </p>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Anamorphic */}
+          <div className="space-y-3">
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="anamorphic-toggle"
+                checked={anamorphicEnabled}
+                onCheckedChange={(checked) => setAnamorphicEnabled(checked === true)}
+              />
+              <Label htmlFor="anamorphic-toggle" className="cursor-pointer">
+                Anamorphic Lens
+              </Label>
+            </div>
+            
+            {anamorphicEnabled && (
+              <div className="space-y-2 pl-6">
+                <div className="flex flex-wrap gap-2">
+                  {ANAMORPHIC_PRESETS.map((preset) => (
+                    <button
+                      key={preset.value}
+                      type="button"
+                      onClick={() => setAnamorphicPreset(preset.value.toString())}
+                      className={`rounded-md border px-3 py-1 text-xs transition-colors ${
+                        anamorphicPreset === preset.value.toString()
+                          ? "border-primary bg-primary text-primary-foreground"
+                          : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                      }`}
+                    >
+                      {preset.label}
+                    </button>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={() => setAnamorphicPreset("custom")}
+                    className={`rounded-md border px-3 py-1 text-xs transition-colors ${
+                      anamorphicPreset === "custom"
+                        ? "border-primary bg-primary text-primary-foreground"
+                        : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                    }`}
+                  >
+                    Custom
+                  </button>
+                </div>
+                
+                {anamorphicPreset === "custom" && (
+                  <div className="flex items-center gap-2">
+                    <Input
+                      type="number"
+                      value={customAnamorphic}
+                      onChange={(e) =>
+                        setCustomAnamorphic(Math.max(1, parseFloat(e.target.value) || 1))
+                      }
+                      className="w-24"
+                      min={1}
+                      step={0.1}
+                    />
+                    <span className="text-sm text-muted-foreground">x squeeze</span>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
         </CardContent>
       </Card>
 
@@ -244,13 +429,13 @@ export function FoVCalculator() {
               </Badge>
             </div>
 
-            {sensorMode?.anamorphicSqueeze && (
+            {(anamorphicEnabled || sensorMode?.anamorphicSqueeze) && (
               <div className="flex items-center justify-between">
                 <span className="text-sm text-muted-foreground">
                   Anamorphic Squeeze
                 </span>
                 <Badge variant="secondary">
-                  {sensorMode.anamorphicSqueeze}x
+                  {effectiveAnamorphic}x
                 </Badge>
               </div>
             )}
