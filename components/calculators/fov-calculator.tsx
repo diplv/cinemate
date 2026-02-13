@@ -78,29 +78,6 @@ export function FoVCalculator() {
     );
   }, [camera, sensorModeName]);
 
-  // Calculate effective sensor dimensions with frameline applied
-  const effectiveSensor = useMemo(() => {
-    if (!sensorMode) return null;
-    
-    if (!framelineEnabled) {
-      return { width: sensorMode.width, height: sensorMode.height };
-    }
-    
-    const targetAR = framelinePreset === "custom" 
-      ? customFrameline 
-      : parseFloat(framelinePreset);
-    
-    const sensorAR = sensorMode.width / sensorMode.height;
-    
-    if (targetAR > sensorAR) {
-      // Frameline is wider - crop height to match AR
-      return { width: sensorMode.width, height: sensorMode.width / targetAR };
-    } else {
-      // Frameline is taller - crop width to match AR
-      return { width: sensorMode.height * targetAR, height: sensorMode.height };
-    }
-  }, [sensorMode, framelineEnabled, framelinePreset, customFrameline]);
-
   // Calculate effective anamorphic squeeze
   const effectiveAnamorphic = useMemo(() => {
     if (anamorphicEnabled) {
@@ -111,16 +88,45 @@ export function FoVCalculator() {
     return sensorMode?.anamorphicSqueeze ?? 1.0;
   }, [anamorphicEnabled, anamorphicPreset, customAnamorphic, sensorMode]);
 
+  // Calculate effective sensor dimensions with frameline applied AFTER desqueeze
+  const effectiveSensor = useMemo(() => {
+    if (!sensorMode) return null;
+    
+    // Desqueezed dimensions (what the image looks like after anamorphic desqueeze)
+    const desqueezedWidth = sensorMode.width * effectiveAnamorphic;
+    const desqueezedHeight = sensorMode.height;
+    
+    if (!framelineEnabled) {
+      return { width: desqueezedWidth, height: desqueezedHeight };
+    }
+    
+    const targetAR = framelinePreset === "custom" 
+      ? customFrameline 
+      : parseFloat(framelinePreset);
+    
+    // Apply frameline to desqueezed image
+    const desqueezedAR = desqueezedWidth / desqueezedHeight;
+    
+    if (targetAR > desqueezedAR) {
+      // Frameline is wider - crop height to match AR
+      return { width: desqueezedWidth, height: desqueezedWidth / targetAR };
+    } else {
+      // Frameline is taller - crop width to match AR
+      return { width: desqueezedHeight * targetAR, height: desqueezedHeight };
+    }
+  }, [sensorMode, framelineEnabled, framelinePreset, customFrameline, effectiveAnamorphic]);
+
   const result = useMemo(() => {
     if (!sensorMode || !effectiveSensor) return null;
+    // Squeeze already applied in effectiveSensor, so pass 1.0
     return calculateFullFoV(
       effectiveSensor.width,
       effectiveSensor.height,
       focalLength,
-      effectiveAnamorphic,
+      1.0,
       distanceMeters,
     );
-  }, [sensorMode, effectiveSensor, focalLength, effectiveAnamorphic, distanceMeters]);
+  }, [sensorMode, effectiveSensor, focalLength, distanceMeters]);
 
   const handleCameraChange = (id: string) => {
     setCameraId(id);
