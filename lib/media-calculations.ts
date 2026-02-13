@@ -7,15 +7,15 @@ export interface MediaCapacityResult {
 }
 
 /**
- * Calculate recording time based on card capacity and data rate.
- * Formula: (cardGB * 8000) / dataRateMbps = seconds
- * Using 1 GB = 8000 Mbits (industry standard 1000-based conversion)
+ * Calculate recording time based on card capacity, frame size, and framerate.
+ * Formula: (cardGB * 1000) / (frameSizeMB * fps) = seconds
  */
 export function calculateMediaCapacity(
   cardSizeGB: number,
-  dataRateMbps: number
+  frameSizeMB: number,
+  fps: number
 ): MediaCapacityResult {
-  if (dataRateMbps <= 0) {
+  if (frameSizeMB <= 0 || fps <= 0) {
     return {
       totalSeconds: 0,
       hours: 0,
@@ -25,7 +25,7 @@ export function calculateMediaCapacity(
     };
   }
 
-  const totalSeconds = (cardSizeGB * 8000) / dataRateMbps;
+  const totalSeconds = (cardSizeGB * 1000) / (frameSizeMB * fps);
   const hours = Math.floor(totalSeconds / 3600);
   const minutes = Math.floor((totalSeconds % 3600) / 60);
   const seconds = Math.floor(totalSeconds % 60);

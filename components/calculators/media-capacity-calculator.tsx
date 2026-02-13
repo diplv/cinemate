@@ -98,8 +98,8 @@ export function MediaCapacityCalculator() {
 
   const result = useMemo(() => {
     if (!selectedCodec) return null;
-    return calculateMediaCapacity(cardSize, selectedCodec.dataRateMbps);
-  }, [selectedCodec, cardSize]);
+    return calculateMediaCapacity(cardSize, selectedCodec.frameSizeMB, framerate);
+  }, [selectedCodec, cardSize, framerate]);
 
   return (
     <div className="space-y-4">
@@ -155,7 +155,7 @@ export function MediaCapacityCalculator() {
               </Select>
               {selectedCodec && (
                 <p className="text-xs text-muted-foreground">
-                  Data rate: {selectedCodec.dataRateMbps} Mbps
+                  Frame size: {selectedCodec.frameSizeMB} MB
                 </p>
               )}
             </div>
@@ -224,8 +224,8 @@ export function MediaCapacityCalculator() {
             <div className="h-px bg-border" />
 
             <div className="flex items-center justify-between">
-              <span className="text-sm text-muted-foreground">Data Rate</span>
-              <Badge variant="secondary">{selectedCodec.dataRateMbps} Mbps</Badge>
+              <span className="text-sm text-muted-foreground">Frame Size</span>
+              <Badge variant="secondary">{selectedCodec.frameSizeMB} MB</Badge>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-sm text-muted-foreground">Card Capacity</span>
