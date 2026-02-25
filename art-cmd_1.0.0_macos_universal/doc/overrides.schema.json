@@ -1,0 +1,121 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://www.arri.com/schema/json/art/overrides/v1-0-0",
+    "$comment": "Allowed Metadata Overrides",
+    "title": "Overrides",
+    "description": "Overrides for inaccurate metadata in clip when processing or copying ARRIRAW, ARRICORE or RGB video data.",
+    "type": "object",
+    "properties": {
+        "cinematographer": {
+            "title": "Cinematographer",
+            "description": "Name of the director of photography / cinematographer",
+            "type": "string"
+        },
+        "circleTake": {
+            "title": "Circle Take",
+            "description": "Flag for marking good takes",
+            "type": "boolean"
+        },
+        "clipStartFrameNumber": {
+            "title": "Clip Start Frame Number",
+            "description": "Frame number of the first frame of the clip",
+            "type": "integer"
+        },
+        "director": {
+            "title": "Director",
+            "description": "Name of the director",
+            "type": "string"
+        },
+        "episode": {
+            "title": "Episode",
+            "description": "Name of the episode",
+            "type": "string"
+        },
+        "imageReversal": {
+            "title": "Image Reversal",
+            "description": "Horizontal and vertical reversal of the image",
+            "type": "object",
+            "properties": {
+                "horizontal": {
+                    "title": "Flop",
+                    "description": "Flags for mirroring across vertical centerline",
+                    "type": "integer"
+                },
+                "vertical": {
+                    "title": "Flip",
+                    "description": "Flags for mirroring across horizontal centerline",
+                    "type": "integer"
+                }
+            }
+        },
+        "lensSqueezeFactor": {
+            "title": "Lens Squeeze Factor",
+            "description": "Anamorphic squeeze factor of the lens. Also adapts the displayRect.aspectRatio accordingly.",
+            "type": "string",
+            "pattern": "^[+\\-]?\\d+/\\d+$"
+        },
+        "location": {
+            "title": "Location",
+            "description": "Location of the shooting",
+            "type": "string"
+        },
+        "production": {
+            "title": "Production",
+            "description": "Name of the production",
+            "type": "string"
+        },
+        "productionCompany": {
+            "title": "Production Company",
+            "description": "Name of the production company",
+            "type": "string"
+        },
+        "scene": {
+            "title": "Scene",
+            "description": "Scene name",
+            "type": "string"
+        },
+        "season": {
+            "title": "Season",
+            "description": "Name of the season / series",
+            "type": "string"
+        },
+        "shootingDay": {
+            "title": "Shooting Day",
+            "description": "Day of shooting (counting)",
+            "type": "integer",
+            "exclusiveMinimum": 0
+        },
+        "take": {
+            "title": "Take",
+            "description": "Take number or name",
+            "type": "string"
+        },
+        "userInfo": {
+            "type": "array",
+            "items": {
+                "title": "User Info",
+                "description": "Additional user-supplied information",
+                "type": "object",
+                "properties": {
+                    "key": {
+                        "title": "Key",
+                        "description": "Key of the custom user info, in reverse domain name notation",
+                        "type": "string"
+                    },
+                    "value": {
+                        "title": "Value",
+                        "description": "Value of the custom user info",
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "key",
+                    "value"
+                ]
+            },
+            "minLength": 0
+        }
+    },
+    "unevaluatedProperties": false,
+    "additionalProperties": false
+}

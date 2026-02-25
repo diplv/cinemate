@@ -1,0 +1,191 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+        "timestamp": {
+            "type": "string"
+        },
+        "durationSeconds": {
+            "type": "integer",
+            "minimum": 0
+        },
+        "artCmdVersion": {
+            "type": "string"
+        },
+        "hostID": {
+            "type": "string",
+            "format": "hostname"
+        },
+        "logLevel": {
+            "type": "string",
+            "oneOf": [
+                {
+                    "const": "info"
+                },
+                {
+                    "const": "warning"
+                },
+                {
+                    "const": "error"
+                },
+                {
+                    "const": "quiet"
+                }
+            ]
+        },
+        "logPath": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "skippedMetadata": {
+            "type": "boolean"
+        },
+        "skippedVideo": {
+            "type": "boolean"
+        },
+        "skippedAudio": {
+            "type": "boolean"
+        },
+        "inputA": {
+            "type": "string"
+        },
+        "inputB": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "clipsProcessed": {
+            "type": "integer",
+            "minimum": 0
+        },
+        "failedClipsCount": {
+            "type": "integer",
+            "minimum": 0
+        },
+        "failedClips": {
+            "type": [
+                "array",
+                "null"
+            ],
+            "items": [
+                {
+                    "type": "object",
+                    "properties": {
+                        "clipA": {
+                            "type": "string"
+                        },
+                        "clipB": {
+                            "type": [
+                                "string",
+                                "null"
+                            ]
+                        },
+                        "staticMetadata": {
+                            "type": "array",
+                            "items": [
+                                {
+                                    "type": "string"
+                                }
+                            ],
+                            "minItems": 1
+                        },
+                        "dynamicMetadata": {
+                            "type": "array",
+                            "items": [
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "frame": {
+                                            "type": "integer",
+                                            "minimum": -1
+                                        },
+                                        "diffs": {
+                                            "type": "array",
+                                            "items": [
+                                                {
+                                                    "type": "string"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "frame",
+                                        "diffs"
+                                    ]
+                                }
+                            ],
+                            "minItems": 1
+                        },
+                        "readError": {
+                            "type": "string"
+                        }
+                    },
+                    "anyOf": [
+                        {
+                            "required": [
+                                "clipA",
+                                "clipB",
+                                "staticMetadata"
+                            ]
+                        },
+                        {
+                            "required": [
+                                "clipA",
+                                "dynamicMetadata"
+                            ]
+                        },
+                        {
+                            "required": [
+                                "clipA",
+                                "readError"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        "passedClips": {
+            "type": [
+                "array",
+                "null"
+            ],
+            "items": [
+                {
+                    "type": "object",
+                    "properties": {
+                        "clipA": {
+                            "type": "string"
+                        },
+                        "clipB": {
+                            "type": [
+                                "string",
+                                "null"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "clipA"
+                    ]
+                }
+            ]
+        }
+    },
+    "required": [
+        "timestamp",
+        "durationSeconds",
+        "artCmdVersion",
+        "hostID",
+        "logLevel",
+        "skippedMetadata",
+        "skippedVideo",
+        "skippedAudio",
+        "inputA",
+        "clipsProcessed",
+        "failedClipsCount"
+    ],
+    "unevaluatedProperties": false,
+    "additionalProperties": false
+}

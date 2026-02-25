@@ -8,11 +8,13 @@ RUN dnf module enable -y nodejs:20 && \
 # Create non-root user
 RUN useradd -m -s /bin/bash appuser
 
-# Copy ART CMD binary and its shared libraries
+# Copy ART CMD binaries and shared libraries
 COPY art-cmd.gz /usr/local/bin/art-cmd.gz
+COPY look-builder.gz /usr/local/bin/look-builder.gz
 COPY lib.tar.gz /tmp/lib.tar.gz
 
 RUN gunzip /usr/local/bin/art-cmd.gz && chmod +x /usr/local/bin/art-cmd && \
+    gunzip /usr/local/bin/look-builder.gz && chmod +x /usr/local/bin/look-builder && \
     tar -xzvf /tmp/lib.tar.gz -C /usr/local/lib/ && \
     mv /usr/local/lib/lib/* /usr/local/lib/ && \
     rm -r /usr/local/lib/lib /tmp/lib.tar.gz && \

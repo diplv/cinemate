@@ -9,9 +9,7 @@ import { extractCubeFromAml } from "./aml-parser.service.js";
 const execFileAsync = promisify(execFile);
 // Resolve path relative to this file's location
 const __dirname = dirname(fileURLToPath(import.meta.url));
-// Path to look-builder CLI: backend/dist/services -> backend -> project root -> art-cmd
-const LOOK_BUILDER_PATH = process.env.LOOK_BUILDER_PATH ||
-    join(__dirname, "../../../art-cmd_1.0.0_macos_universal/bin/look-builder");
+const LOOK_BUILDER_PATH = process.env.LOOK_BUILDER_PATH || "look-builder";
 // Current active mode - ARRI docs confirm DRT expects AWG4/LogC4 input directly.
 // SCENARIO_B_FULL_CONVERTED_DRT bakes both AWG4→AWG3 gamut AND LogC4→LogC3 transfer
 // into the DRT so it accepts AWG4/LogC4 and outputs Rec.709.

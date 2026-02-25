@@ -1,0 +1,44 @@
+{
+  "inputCrop": {
+    "displayXOffsetOverride": 77,
+    "displayYOffsetOverride": 81,
+    "displayWidthOverride": 2560,
+    "displayHeightOverride": 1440
+  },
+  "outputScaling": {
+    "targetWidth": 1920,
+    "targetHeight": 1080
+  },
+  "applyFlip": true,
+  "applyFlop": true,
+  "exposureIndexOverride": 1200,
+  "colorTemperatureOverride": 5300,
+  "tintOverride": -2.0,
+  "debayer": {
+    "mode": "ADA5SW",
+    "ada5SwParams": {
+      "finetuneRed": 100,
+      "finetuneGreen": 100,
+      "finetuneBlue": 50
+    }
+  },
+  "inputBinning": "off",
+  "userPixelMask": [
+    {
+      "xPos": 80,
+      "yPos": 90
+    },
+    {
+      "xPos": 101,
+      "yPos": 188
+    }
+  ],
+  "textureGen1Override": {
+    "noiseReductionModeOverride": "anr1",
+    "noiseReductionStrengthOverride": 1.25,
+    "sharpnessOverride": 7.5,
+    "detailOverride": -2.0
+  },
+  "transferCurveOverride": "LogC4",
+  "proxyMode": "none"
+}

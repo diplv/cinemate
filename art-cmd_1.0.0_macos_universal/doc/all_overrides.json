@@ -1,0 +1,29 @@
+{
+    "cinematographer": "Roger Deakins",
+    "circleTake": true,
+    "clipStartFrameNumber": 1001,
+    "director": "Christopher Nolan",
+    "episode": "Pilot",
+    "imageReversal": {
+        "horizontal": 0,
+        "vertical": 0
+    },
+    "lensSqueezeFactor": "2/1",
+    "location": "Los Angeles, CA",
+    "production": "Feature Film Title",
+    "productionCompany": "Studio Productions Inc.",
+    "scene": "Scene 42A",
+    "season": "Season 1",
+    "shootingDay": 15,
+    "take": "Take 3",
+    "userInfo": [
+        {
+            "key": "com.example.customfield",
+            "value": "Custom metadata value"
+        },
+        {
+            "key": "com.studio.department",
+            "value": "VFX"
+        }
+    ]
+}

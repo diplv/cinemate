@@ -100,7 +100,7 @@ export function LutConverter() {
       {/* File Upload */}
       <Card>
         <CardHeader className="pb-3">
-          <CardTitle className="text-base">LUT Conversion</CardTitle>
+          <CardTitle className="text-base">ARRI Look Conversion</CardTitle>
           <CardDescription>
             Convert LogC3 *.aml/*.cube Look to LogC4 *.alf4c for Alexa 35
           </CardDescription>

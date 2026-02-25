@@ -18,9 +18,7 @@ const execFileAsync = promisify(execFile);
 
 // Resolve path relative to this file's location
 const __dirname = dirname(fileURLToPath(import.meta.url));
-// Path to look-builder CLI: backend/dist/services -> backend -> project root -> art-cmd
-const LOOK_BUILDER_PATH = process.env.LOOK_BUILDER_PATH || 
-  join(__dirname, "../../../art-cmd_1.0.0_macos_universal/bin/look-builder");
+const LOOK_BUILDER_PATH = process.env.LOOK_BUILDER_PATH || "look-builder";
 
 /**
  * Pipeline conversion mode - determines how color space conversion is handled.
@@ -49,7 +47,7 @@ const LOOK_BUILDER_PATH = process.env.LOOK_BUILDER_PATH ||
  *   - Bakes BOTH AWG4→AWG3 gamut AND LogC4→LogC3 transfer into DRT
  *   - DRT expects: AWG4/LogC4 (raw camera output)
  */
-export type PipelineMode = 
+export type PipelineMode =
   | "DIAGNOSTIC"
   | "SCENARIO_A_IDENTITY"
   | "SCENARIO_A_GAMUT_CMT"
