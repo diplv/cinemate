@@ -42,10 +42,11 @@ async function start(): Promise<void> {
 
   // Health check
   app.get("/health", async () => {
-    const artAvailable = await isArtCmdAvailable();
+    const artStatus = await isArtCmdAvailable();
     return {
       status: "ok",
-      artCmd: artAvailable ? "available" : "not found",
+      artCmd: artStatus.available ? "available" : "not found",
+      artError: artStatus.error || null,
     };
   });
 
@@ -76,11 +77,11 @@ async function start(): Promise<void> {
   await app.listen({ port: PORT, host: "0.0.0.0" });
   app.log.info(`Server running on port ${PORT}`);
 
-  const artAvailable = await isArtCmdAvailable();
-  if (artAvailable) {
+  const artStatus = await isArtCmdAvailable();
+  if (artStatus.available) {
     app.log.info("ART CMD is available");
   } else {
-    app.log.warn("ART CMD not found - conversions will fail until it is installed");
+    app.log.warn(`ART CMD not found - conversions will fail until it is installed. Error: ${artStatus.error}`);
   }
 }
 
