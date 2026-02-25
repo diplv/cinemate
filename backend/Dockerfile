@@ -8,9 +8,17 @@ RUN dnf module enable -y nodejs:20 && \
 # Create non-root user
 RUN useradd -m -s /bin/bash appuser
 
-# Copy ART CMD binary (compressed to bypass GitHub 100MB limit)
+# Copy ART CMD binary and its shared libraries
 COPY art-cmd.gz /usr/local/bin/art-cmd.gz
-RUN gunzip /usr/local/bin/art-cmd.gz && chmod +x /usr/local/bin/art-cmd
+COPY lib.tar.gz /tmp/lib.tar.gz
+
+RUN gunzip /usr/local/bin/art-cmd.gz && chmod +x /usr/local/bin/art-cmd && \
+    tar -xzvf /tmp/lib.tar.gz -C /usr/local/lib/ && \
+    mv /usr/local/lib/lib/* /usr/local/lib/ && \
+    rm -r /usr/local/lib/lib /tmp/lib.tar.gz && \
+    ldconfig
+
+ENV LD_LIBRARY_PATH="/usr/local/lib:${LD_LIBRARY_PATH}"
 
 # Set up app directory
 WORKDIR /app
