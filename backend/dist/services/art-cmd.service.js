@@ -7,14 +7,20 @@ const TIMEOUT_MS = 2 * 60 * 1000; // 2 minutes per command
 export async function isArtCmdAvailable() {
     try {
         await access(ART_CMD_PATH, constants.X_OK);
-        return true;
+        return { available: true };
     }
-    catch {
-        // Try running it directly (might be in PATH)
+    catch (err1) {
         return new Promise((resolve) => {
+            let stderr = "";
             const proc = spawn(ART_CMD_PATH, ["--help"], { timeout: 5000 });
-            proc.on("error", () => resolve(false));
-            proc.on("close", (code) => resolve(code === 0));
+            proc.stderr?.on("data", (data) => stderr += data.toString());
+            proc.on("error", (err2) => resolve({ available: false, error: err2.message }));
+            proc.on("close", (code) => {
+                if (code === 0)
+                    resolve({ available: true });
+                else
+                    resolve({ available: false, error: `Exit code ${code}. Stderr: ${stderr}` });
+            });
         });
     }
 }

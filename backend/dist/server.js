@@ -7,9 +7,8 @@ import { convertRoutes } from "./routes/convert.js";
 import { isArtCmdAvailable } from "./services/art-cmd.service.js";
 import { cleanupOrphaned } from "./utils/temp-files.js";
 const PORT = parseInt(process.env.PORT || "8080", 10);
-const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || "http://localhost:3000")
-    .split(",")
-    .map((s) => s.trim());
+const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS ?
+    process.env.ALLOWED_ORIGINS.split(",").map((s) => s.trim()) : "*";
 const MAX_FILE_SIZE = parseInt(process.env.MAX_FILE_SIZE_MB || "50", 10) * 1024 * 1024;
 async function start() {
     const app = Fastify({
@@ -37,10 +36,11 @@ async function start() {
     });
     // Health check
     app.get("/health", async () => {
-        const artAvailable = await isArtCmdAvailable();
+        const artStatus = await isArtCmdAvailable();
         return {
             status: "ok",
-            artCmd: artAvailable ? "available" : "not found",
+            artCmd: artStatus.available ? "available" : "not found",
+            artError: artStatus.error || null,
         };
     });
     // Register routes
@@ -64,12 +64,12 @@ async function start() {
     // Start server
     await app.listen({ port: PORT, host: "0.0.0.0" });
     app.log.info(`Server running on port ${PORT}`);
-    const artAvailable = await isArtCmdAvailable();
-    if (artAvailable) {
+    const artStatus = await isArtCmdAvailable();
+    if (artStatus.available) {
         app.log.info("ART CMD is available");
     }
     else {
-        app.log.warn("ART CMD not found - conversions will fail until it is installed");
+        app.log.warn(`ART CMD not found - conversions will fail until it is installed. Error: ${artStatus.error}`);
     }
 }
 start().catch((err) => {
