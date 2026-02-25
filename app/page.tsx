@@ -4,12 +4,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DiopterCalculator } from "@/components/calculators/diopter-calculator";
 import { FoVCalculator } from "@/components/calculators/fov-calculator";
 import { MediaCapacityCalculator } from "@/components/calculators/media-capacity-calculator";
-import { Focus, Video, HardDrive } from "lucide-react";
+import { LutConverter } from "@/components/calculators/lut-converter";
+import { Focus, Video, HardDrive, Palette } from "lucide-react";
 
 export default function Home() {
   return (
     <Tabs defaultValue="diopter" className="w-full">
-      <TabsList className="grid w-full grid-cols-3">
+      <TabsList className="grid w-full grid-cols-4">
         <TabsTrigger value="diopter" className="gap-1.5">
           <Focus className="h-4 w-4" />
           Diopter
@@ -22,6 +23,10 @@ export default function Home() {
           <HardDrive className="h-4 w-4" />
           Media
         </TabsTrigger>
+        <TabsTrigger value="lut" className="gap-1.5">
+          <Palette className="h-4 w-4" />
+          ARRI Look
+        </TabsTrigger>
       </TabsList>
       <TabsContent value="diopter" className="mt-4">
         <DiopterCalculator />
@@ -31,6 +36,9 @@ export default function Home() {
       </TabsContent>
       <TabsContent value="media" className="mt-4">
         <MediaCapacityCalculator />
+      </TabsContent>
+      <TabsContent value="lut" className="mt-4">
+        <LutConverter />
       </TabsContent>
     </Tabs>
   );

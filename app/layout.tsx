@@ -66,11 +66,14 @@ export default function RootLayout({
             <Header />
             <main className="mx-auto max-w-2xl px-4 py-4">{children}</main>
             <footer className="mx-auto max-w-2xl px-4 py-6 text-center">
+              <p className="mb-2 text-sm font-medium text-amber-500/80">
+                App is in beta stage and can have some bugs/glitches.
+              </p>
               <a
                 href="mailto:sorogins.d@gmail.com"
-                className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                className="text-sm font-semibold text-muted-foreground transition-colors hover:text-white"
               >
-                Contact Developer
+                Report a bug/Contact developer
               </a>
             </footer>
           </UnitProvider>
