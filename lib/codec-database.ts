@@ -8,6 +8,7 @@ export interface CameraCodecProfile {
   cameraId: string;
   mediaType: string;
   cardSizes: number[]; // in GB
+  usableCapacityMultiplier?: number; // E.g., 0.96 for CFast 2.0 where 128GB yields ~120GB usable
   codecs: Codec[];
 }
 
@@ -17,6 +18,7 @@ export const CODEC_DATABASE: CameraCodecProfile[] = [
     cameraId: "arri-alexa-35",
     mediaType: "Codex Compact Drive",
     cardSizes: [1000, 2000],
+    usableCapacityMultiplier: 0.96,
     codecs: [
       // ARRIRAW modes (frame sizes from ARRI spec PDF v6.1)
       { name: "ARRIRAW 4.6K 3:2 OG", frameSizeMB: 23.7, supportedFramerates: [24, 25, 30, 35] },
@@ -46,6 +48,7 @@ export const CODEC_DATABASE: CameraCodecProfile[] = [
     cameraId: "arri-alexa-35-xtreme",
     mediaType: "Codex Compact Drive",
     cardSizes: [1000, 2000],
+    usableCapacityMultiplier: 0.96,
     codecs: [
       // ARRIRAW modes with higher fps (Premium/Xtreme license)
       { name: "ARRIRAW 4.6K 3:2 OG", frameSizeMB: 23.7, supportedFramerates: [24, 25, 30, 48, 50, 60, 80] },
@@ -74,6 +77,7 @@ export const CODEC_DATABASE: CameraCodecProfile[] = [
     cameraId: "arri-mini-lf",
     mediaType: "CFast 2.0 / Codex Compact Drive",
     cardSizes: [1000, 2000],
+    usableCapacityMultiplier: 0.96,
     codecs: [
       // ARRIRAW modes (frame sizes from PDF)
       { name: "ARRIRAW 4.5K LF OG", frameSizeMB: 20.9, supportedFramerates: [24, 25, 30, 40] },
@@ -98,16 +102,25 @@ export const CODEC_DATABASE: CameraCodecProfile[] = [
     cameraId: "arri-alexa-mini",
     mediaType: "CFast 2.0",
     cardSizes: [128, 256, 512],
+    usableCapacityMultiplier: 0.9609, // 123GB usable out of 128GB (128 * 0.9609 = 123)
     codecs: [
-      // ARRIRAW modes (frame sizes from PDF)
-      { name: "ARRIRAW 3.4K OG", frameSizeMB: 11.5, supportedFramerates: [24, 25, 30] },
-      { name: "ARRIRAW 2.8K 4:3", frameSizeMB: 11.5, supportedFramerates: [24, 25, 30] },
-      { name: "ARRIRAW 2.8K 16:9", frameSizeMB: 7.2, supportedFramerates: [24, 25, 30, 48] },
-      { name: "ARRIRAW 2.39:1 2K Ana", frameSizeMB: 11.5, supportedFramerates: [24, 25, 30] },
-      { name: "ARRIRAW HD Ana", frameSizeMB: 11.5, supportedFramerates: [24, 25, 30] },
-      // ProRes modes
+      // ARRIRAW modes (empirically matched to user data)
+      { name: "ARRIRAW 3.4K OG", frameSizeMB: 11.46, supportedFramerates: [24, 25, 30] },
+      { name: "ARRIRAW 2.8K 4:3 (OG 3.4K)", frameSizeMB: 11.46, supportedFramerates: [24, 25, 30] },
+      { name: "ARRIRAW 2.8K 16:9", frameSizeMB: 7.11, supportedFramerates: [24, 25, 30, 48] },
+      { name: "ARRIRAW 2.39:1 2K Ana (OG 3.4K)", frameSizeMB: 11.46, supportedFramerates: [24, 25, 30] },
+      { name: "ARRIRAW 16:9 HD Ana. (OG 3.4K)", frameSizeMB: 11.46, supportedFramerates: [24, 25, 30] },
+
+      // ProRes modes (empirically matched)
+      { name: "ProRes 4444 XQ 4:3 2.8K", frameSizeMB: 7.21, supportedFramerates: [24, 25, 30, 48, 50, 60] },
+      { name: "ProRes 4444 XQ 3.2K", frameSizeMB: 6.53, supportedFramerates: [24, 25, 30, 48, 50, 60] },
+      { name: "ProRes 4444 4:3 2.8K", frameSizeMB: 4.81, supportedFramerates: [24, 25, 30, 48, 50, 60] },
       { name: "ProRes 4444 4K UHD", frameSizeMB: 4.5, supportedFramerates: [24, 25, 30, 48, 50, 60] },
       { name: "ProRes 4444 3.2K", frameSizeMB: 3.5, supportedFramerates: [24, 25, 30, 48, 50, 60] },
+      { name: "ProRes 422 HQ 4:3 2.8K", frameSizeMB: 3.21, supportedFramerates: [24, 25, 30, 48, 50, 60] },
+      { name: "ProRes 422 4:3 2.8K", frameSizeMB: 2.15, supportedFramerates: [24, 25, 30, 48, 50, 60] },
+      { name: "ProRes 422 LT 4:3 2.8K", frameSizeMB: 1.50, supportedFramerates: [24, 25, 30, 48, 50, 60] },
+
       { name: "ProRes 422 HQ 2K", frameSizeMB: 1.4, supportedFramerates: [24, 25, 30, 48, 50, 60, 120, 200] },
       { name: "ProRes 422 HQ HD", frameSizeMB: 1.2, supportedFramerates: [24, 25, 30, 48, 50, 60, 120, 200] },
       { name: "ProRes 422 HQ S16 HD", frameSizeMB: 0.8, supportedFramerates: [24, 25, 30, 48, 50, 60, 120, 200] },
@@ -119,6 +132,7 @@ export const CODEC_DATABASE: CameraCodecProfile[] = [
     cameraId: "arri-alexa-65",
     mediaType: "Codex Compact Drive",
     cardSizes: [1000, 2000],
+    usableCapacityMultiplier: 0.96,
     codecs: [
       // ARRIRAW modes (frame sizes from PDF)
       { name: "ARRIRAW 6.5K OG", frameSizeMB: 30.5, supportedFramerates: [24, 25, 30, 48, 50, 60] },
@@ -132,6 +146,7 @@ export const CODEC_DATABASE: CameraCodecProfile[] = [
     cameraId: "arri-alexa-265",
     mediaType: "Codex Compact Drive",
     cardSizes: [1000, 2000],
+    usableCapacityMultiplier: 0.96,
     codecs: [
       // ARRIRAW modes (frame sizes from PDF) - 65mm format
       { name: "ARRIRAW 6.5K OG", frameSizeMB: 30.5, supportedFramerates: [24, 25, 30, 48, 50, 60] },

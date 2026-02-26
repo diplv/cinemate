@@ -34,11 +34,11 @@ import { calculateMediaCapacity } from "@/lib/media-calculations";
 
 export function MediaCapacityCalculator() {
   const supportedCameraIds = useMemo(() => getSupportedCameraIds(), []);
-  
+
   const camerasByMfr = useMemo(() => {
     const allCameras = getCamerasByManufacturer();
     const filtered: Record<string, Camera[]> = {};
-    
+
     for (const [mfr, cameras] of Object.entries(allCameras)) {
       const supported = cameras.filter((cam) => supportedCameraIds.includes(cam.id));
       if (supported.length > 0) {
@@ -97,9 +97,14 @@ export function MediaCapacityCalculator() {
   }, [codecProfile, codecName]);
 
   const result = useMemo(() => {
-    if (!selectedCodec) return null;
-    return calculateMediaCapacity(cardSize, selectedCodec.frameSizeMB, framerate);
-  }, [selectedCodec, cardSize, framerate]);
+    if (!selectedCodec || !codecProfile) return null;
+    return calculateMediaCapacity(
+      cardSize,
+      selectedCodec.frameSizeMB,
+      framerate,
+      codecProfile.usableCapacityMultiplier
+    );
+  }, [selectedCodec, codecProfile, cardSize, framerate]);
 
   return (
     <div className="space-y-4">
@@ -170,11 +175,10 @@ export function MediaCapacityCalculator() {
                   key={fps}
                   type="button"
                   onClick={() => setFramerate(fps)}
-                  className={`rounded-md border px-2 py-0.5 text-xs transition-colors ${
-                    framerate === fps
+                  className={`rounded-md border px-2 py-0.5 text-xs transition-colors ${framerate === fps
                       ? "border-primary bg-primary text-primary-foreground"
                       : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-                  }`}
+                    }`}
                 >
                   {fps}
                 </button>
@@ -192,11 +196,10 @@ export function MediaCapacityCalculator() {
                     key={size}
                     type="button"
                     onClick={() => setCardSize(size)}
-                    className={`rounded-md border px-3 py-1 text-xs transition-colors ${
-                      cardSize === size
+                    className={`rounded-md border px-3 py-1 text-xs transition-colors ${cardSize === size
                         ? "border-primary bg-primary text-primary-foreground"
                         : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-                    }`}
+                      }`}
                   >
                     {formatCardSize(size)}
                   </button>

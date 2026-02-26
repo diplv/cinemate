@@ -8,12 +8,16 @@ export interface MediaCapacityResult {
 
 /**
  * Calculate recording time based on card capacity, frame size, and framerate.
- * Formula: (cardGB * 1000) / (frameSizeMB * fps) = seconds
+ * Formula: (cardGB * usableMultiplier * 1000) / (frameSizeMB * fps) = seconds
+ * 
+ * Note: Many cards (like ARRI CFast 2.0) don't expose their full capacity.
+ * For example, a 512GB CFast 2.0 card typically has ~0.96 usable multiplier.
  */
 export function calculateMediaCapacity(
   cardSizeGB: number,
   frameSizeMB: number,
-  fps: number
+  fps: number,
+  usableMultiplier: number = 1.0
 ): MediaCapacityResult {
   if (frameSizeMB <= 0 || fps <= 0) {
     return {
@@ -25,7 +29,10 @@ export function calculateMediaCapacity(
     };
   }
 
-  const totalSeconds = (cardSizeGB * 1000) / (frameSizeMB * fps);
+  // Calculate total seconds using the usable capacity
+  const totalUsableMB = cardSizeGB * 1000 * usableMultiplier;
+  const totalSeconds = totalUsableMB / (frameSizeMB * fps);
+
   const hours = Math.floor(totalSeconds / 3600);
   const minutes = Math.floor((totalSeconds % 3600) / 60);
   const seconds = Math.floor(totalSeconds % 60);
