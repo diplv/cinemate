@@ -105,19 +105,19 @@ export const CODEC_DATABASE: CameraCodecProfile[] = [
     usableCapacityMultiplier: 0.9609, // 123GB usable out of 128GB (128 * 0.9609 = 123)
     codecs: [
       // ARRIRAW modes (empirically matched to user data)
-      { name: "ARRIRAW 3.4K OG", frameSizeMB: 11.46, supportedFramerates: [24, 25, 30] },
-      { name: "ARRIRAW 2.8K 4:3 (OG 3.4K)", frameSizeMB: 11.46, supportedFramerates: [24, 25, 30] },
+      { name: "ARRIRAW 3.4K OG", frameSizeMB: 11.47, supportedFramerates: [24, 25, 30] },
+      { name: "ARRIRAW 2.8K 4:3 (OG 3.4K)", frameSizeMB: 11.47, supportedFramerates: [24, 25, 30] },
       { name: "ARRIRAW 2.8K 16:9", frameSizeMB: 7.11, supportedFramerates: [24, 25, 30, 48] },
-      { name: "ARRIRAW 2.39:1 2K Ana (OG 3.4K)", frameSizeMB: 11.46, supportedFramerates: [24, 25, 30] },
-      { name: "ARRIRAW 16:9 HD Ana. (OG 3.4K)", frameSizeMB: 11.46, supportedFramerates: [24, 25, 30] },
+      { name: "ARRIRAW 2.39:1 2K Ana (OG 3.4K)", frameSizeMB: 11.47, supportedFramerates: [24, 25, 30] },
+      { name: "ARRIRAW 16:9 HD Ana. (OG 3.4K)", frameSizeMB: 11.47, supportedFramerates: [24, 25, 30] },
 
       // ProRes modes (empirically matched)
-      { name: "ProRes 4444 XQ 4:3 2.8K", frameSizeMB: 7.21, supportedFramerates: [24, 25, 30, 48, 50, 60] },
-      { name: "ProRes 4444 XQ 3.2K", frameSizeMB: 6.53, supportedFramerates: [24, 25, 30, 48, 50, 60] },
-      { name: "ProRes 4444 4:3 2.8K", frameSizeMB: 4.81, supportedFramerates: [24, 25, 30, 48, 50, 60] },
+      { name: "ProRes 4444 XQ 4:3 2.8K", frameSizeMB: 7.22, supportedFramerates: [24, 25, 30, 48, 50, 60] },
+      { name: "ProRes 4444 XQ 3.2K", frameSizeMB: 6.54, supportedFramerates: [24, 25, 30, 48, 50, 60] },
+      { name: "ProRes 4444 4:3 2.8K", frameSizeMB: 4.82, supportedFramerates: [24, 25, 30, 48, 50, 60] },
       { name: "ProRes 4444 4K UHD", frameSizeMB: 4.5, supportedFramerates: [24, 25, 30, 48, 50, 60] },
       { name: "ProRes 4444 3.2K", frameSizeMB: 3.5, supportedFramerates: [24, 25, 30, 48, 50, 60] },
-      { name: "ProRes 422 HQ 4:3 2.8K", frameSizeMB: 3.21, supportedFramerates: [24, 25, 30, 48, 50, 60] },
+      { name: "ProRes 422 HQ 4:3 2.8K", frameSizeMB: 3.22, supportedFramerates: [24, 25, 30, 48, 50, 60] },
       { name: "ProRes 422 4:3 2.8K", frameSizeMB: 2.15, supportedFramerates: [24, 25, 30, 48, 50, 60] },
       { name: "ProRes 422 LT 4:3 2.8K", frameSizeMB: 1.50, supportedFramerates: [24, 25, 30, 48, 50, 60] },
 
