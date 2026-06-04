@@ -1,4 +1,8 @@
-const API_URL = process.env.NEXT_PUBLIC_LUT_API_URL || "http://localhost:8080";
+// Backend is self-hosted on Melbicom (HTTPS via Caddy). Localhost in dev, prod URL otherwise.
+// Hardcoded (not via NEXT_PUBLIC_LUT_API_URL) so deploys don't depend on a stale Vercel env var.
+const isLocalhost =
+  typeof window !== "undefined" && window.location.hostname === "localhost";
+const API_URL = isLocalhost ? "http://localhost:8080" : "https://ledunit.duckdns.org";
 
 export interface ConversionFileInfo {
   name: string;
