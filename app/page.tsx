@@ -11,7 +11,15 @@ import { Focus, Video, HardDrive, Palette, FileWarning } from "lucide-react";
 export default function Home() {
   return (
     <Tabs defaultValue="diopter" className="w-full">
-      <TabsList className="grid w-full grid-cols-5">
+      <TabsList
+        className="w-full p-1"
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+          gap: "0.25rem",
+          height: "auto",
+        }}
+      >
         <TabsTrigger value="diopter" className="gap-1.5">
           <Focus className="h-4 w-4" />
           Diopter
