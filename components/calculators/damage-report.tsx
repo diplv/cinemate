@@ -184,7 +184,7 @@ export function DamageReport() {
           {field("Department", "department")}
           {field("Position", "position")}
           {field("Date of Loss/Damage", "dateOfDamage", { type: "date" })}
-          {field("Police Crime Reference # (if over £500)", "policeRef")}
+          {field("Police Crime Reference # (if over €500)", "policeRef")}
           <div className="flex items-center gap-6 pt-1">
             <label className="flex items-center gap-2 cursor-pointer text-sm">
               <Checkbox checked={data.lost} onCheckedChange={(v) => set("lost", v === true)} />

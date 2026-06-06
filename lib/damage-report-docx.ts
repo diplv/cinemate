@@ -154,7 +154,7 @@ export function buildDamageReportDoc(data: DamageReportData): Document {
     labelValue("Department", data.department),
     labelValue("Position", data.position),
     labelValue("Date of Loss/Damage", data.dateOfDamage),
-    labelValue("Police Crime Reference # (if over £500)", data.policeRef),
+    labelValue("Police Crime Reference # (if over €500)", data.policeRef),
     new Paragraph({
       spacing: { before: 160, after: 80 },
       children: [
