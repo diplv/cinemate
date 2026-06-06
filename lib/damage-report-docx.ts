@@ -7,11 +7,6 @@ import {
   Packer,
   Paragraph,
   TextRun,
-  Table,
-  TableRow,
-  TableCell,
-  WidthType,
-  BorderStyle,
   ImageRun,
   ExternalHyperlink,
   AlignmentType,
@@ -90,33 +85,6 @@ function signatureLine(label: string): Paragraph {
   });
 }
 
-const NO_BORDER = { style: BorderStyle.NONE, size: 0, color: "FFFFFF" } as const;
-const CELL_BORDERS = {
-  top: NO_BORDER,
-  bottom: NO_BORDER,
-  left: NO_BORDER,
-  right: NO_BORDER,
-};
-
-function identityRow(label: string, value: string): TableRow {
-  return new TableRow({
-    children: [
-      new TableCell({
-        width: { size: 32, type: WidthType.PERCENTAGE },
-        borders: CELL_BORDERS,
-        children: [
-          new Paragraph({ children: [new TextRun({ text: label, bold: true, color: INK })] }),
-        ],
-      }),
-      new TableCell({
-        width: { size: 68, type: WidthType.PERCENTAGE },
-        borders: CELL_BORDERS,
-        children: [new Paragraph({ children: [new TextRun({ text: value || "", color: INK })] })],
-      }),
-    ],
-  });
-}
-
 function photoBlock(photos: DamagePhoto[]): Paragraph[] {
   if (photos.length === 0) return [];
   const out: Paragraph[] = [sectionLabel("Damage photos")];
@@ -157,7 +125,7 @@ function tick(on: boolean): string {
 }
 
 export function buildDamageReportDoc(data: DamageReportData): Document {
-  const children: (Paragraph | Table)[] = [
+  const children: Paragraph[] = [
     new Paragraph({
       spacing: { after: 120 },
       children: [new TextRun({ text: "LOSS AND DAMAGE REPORT", bold: true, size: 32, color: INK })],
@@ -182,24 +150,11 @@ export function buildDamageReportDoc(data: DamageReportData): Document {
         }),
       ],
     }),
-    new Table({
-      width: { size: 100, type: WidthType.PERCENTAGE },
-      borders: {
-        top: NO_BORDER,
-        bottom: NO_BORDER,
-        left: NO_BORDER,
-        right: NO_BORDER,
-        insideHorizontal: NO_BORDER,
-        insideVertical: NO_BORDER,
-      },
-      rows: [
-        identityRow("Name", data.name),
-        identityRow("Department", data.department),
-        identityRow("Position", data.position),
-        identityRow("Date of Loss/Damage", data.dateOfDamage),
-        identityRow("Police Crime Reference # (if over £500)", data.policeRef),
-      ],
-    }),
+    labelValue("Name", data.name),
+    labelValue("Department", data.department),
+    labelValue("Position", data.position),
+    labelValue("Date of Loss/Damage", data.dateOfDamage),
+    labelValue("Police Crime Reference # (if over £500)", data.policeRef),
     new Paragraph({
       spacing: { before: 160, after: 80 },
       children: [
